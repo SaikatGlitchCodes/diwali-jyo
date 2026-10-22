@@ -201,10 +201,10 @@ var sk=document.getElementById('sky'),lc=['#ff8fb1','#ffd166','#19c3b0','#ff9d2e
 if(!rm)for(i=0;i<9;i++){var d=document.createElement('div'),w=26+R()*26;d.className='sk';d.style.cssText='left:'+R()*94+'%;width:'+w+'px;opacity:'+(.55+R()*.4)+';animation-duration:'+(16+R()*14)+'s;animation-delay:-'+R()*24+'s';d.innerHTML='<svg viewBox="0 0 40 70" style="color:'+lc[i%6]+';animation-delay:-'+R()*5+'s"><use href="#ln"/></svg>';sk.appendChild(d)}
 var c=document.getElementById('fx'),x=c.getContext('2d'),W,H,P=[],cols=['#ffd166','#ff9d2e','#ff8fb1','#7ff0e0','#fff5e1'];
 function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();addEventListener('resize',rs);
-function burst(cx,cy){var col=cols[R()*5|0],col2=cols[R()*5|0],n=54;for(var i=0;i<n;i++){var a=i/n*6.283,v=1.4+R()*2.8;P.push({x:cx,y:cy,vx:Math.cos(a)v,vy:Math.sin(a)v,l:1,c:i%3?col:col2})}}
+function burst(cx,cy){var col=cols[R()*5|0],col2=cols[R()*5|0],n=54;for(var i=0;i<n;i++){var a=i/n*6.283,v=1.4+R()*2.8;P.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1,c:i%3?col:col2})}}
 function t(){x.globalCompositeOperation='destination-out';x.fillStyle='rgba(0,0,0,.2)';x.fillRect(0,0,W,H);x.globalCompositeOperation='lighter';
-P=P.filter(function(p){return p.l>0});P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.vx=.985;p.l-=.011;x.globalAlpha=Math.max(p.l,0);x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,2.2,0,6.283);x.fill()});requestAnimationFrame(t)}
-if(!rm){t();burst(W.3,H*.25);setInterval(function(){burst(R()*W,40+R()H.45)},2200);addEventListener('pointerdown',function(e){burst(e.clientX,e.clientY)})}
+P=P.filter(function(p){return p.l>0});P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.vx*=.985;p.l-=.011;x.globalAlpha=Math.max(p.l,0);x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,2.2,0,6.283);x.fill()});requestAnimationFrame(t)}
+if(!rm){t();burst(W*.3,H*.25);setInterval(function(){burst(R()*W,40+R()*H*.45)},2200);addEventListener('pointerdown',function(e){burst(e.clientX,e.clientY)})}
 var T=new Date('2026-11-08T19:00:00+05:30'),bs=document.querySelectorAll('#cd b');
 function tick(){var d=T-new Date();if(d<0)d=0;var v=[Math.floor(d/864e5),Math.floor(d/36e5)%24,Math.floor(d/6e4)%60,Math.floor(d/1e3)%60];v.forEach(function(n,k){bs[k].textContent=n<10?'0'+n:n})}
 tick();setInterval(tick,1000);
